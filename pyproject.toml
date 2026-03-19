@@ -1,9 +1,11 @@
 [project]
 name = "categoric"
-version = "0.5.0"
+version = "0.6.0"
 description = "Namespace reserved for categoric.dev and shared helper functions"
 requires-python = ">=3.14"
 dependencies = [
+    "httpx>=0.28.1",
+    "loguru>=0.7.3",
     "typer>=0.24.1",
 ]
 authors = [{ name = "categoric-dev" }]
