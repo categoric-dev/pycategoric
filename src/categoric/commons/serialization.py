@@ -1,8 +1,9 @@
 """Serialization and deserialization utilities."""
 
 import json
-from typing import Any, Dict, Optional
 from datetime import datetime
+from typing import Any
+
 from loguru import logger
 
 
@@ -34,7 +35,7 @@ def from_json(data: str, **kwargs) -> Any:
         raise
 
 
-def safe_json_loads(data: str, default: Optional[Any] = None) -> Any:
+def safe_json_loads(data: str, default: Any | None = None) -> Any:
     """Safely deserialize JSON string with fallback."""
     try:
         return json.loads(data)
@@ -42,7 +43,7 @@ def safe_json_loads(data: str, default: Optional[Any] = None) -> Any:
         return default
 
 
-def to_dict(obj: Any) -> Dict[str, Any]:
+def to_dict(obj: Any) -> dict[str, Any]:
     """Convert object to dictionary."""
     if isinstance(obj, dict):
         return obj

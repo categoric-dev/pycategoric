@@ -3,6 +3,7 @@
 import logging
 import os
 import sys
+
 from loguru import logger
 
 # Constants for logging configuration
@@ -12,8 +13,7 @@ JSON_LOGS = os.environ.get("JSON_LOGS", "0") == "1"
 
 
 class InterceptHandler(logging.Handler):
-    """
-    Default handler for cases with (G)Uvicorn and loguru.
+    """Default handler for cases with (G)Uvicorn and loguru.
     See: https://loguru.readthedocs.io/en/stable/overview.html#entirely-compatible-with-standard-logging
     """
 
@@ -30,7 +30,8 @@ class InterceptHandler(logging.Handler):
             depth += 1
 
         logger.opt(depth=depth, exception=record.exc_info).log(
-            level, record.getMessage()
+            level,
+            record.getMessage(),
         )
 
 
@@ -82,13 +83,25 @@ def setup_logging(level: str | None = None, is_testing: bool = False):
         pass
     elif JSON_LOGS:
         logger.configure(
-            handlers=[{"sink": sys.stdout, "serialize": True, "level": effective_level}]
+            handlers=[
+                {
+                    "sink": sys.stdout,
+                    "serialize": True,
+                    "level": effective_level,
+                    diagnose: False,
+                },
+            ],
         )
     else:
         logger.configure(
             handlers=[
-                {"sink": sys.stdout, "format": LOGURU_FORMAT, "level": effective_level}
-            ]
+                {
+                    "sink": sys.stdout,
+                    "format": LOGURU_FORMAT,
+                    "level": effective_level,
+                    diagnose: False,
+                },
+            ],
         )
 
     # Specifically ensure uvicorn loggers are intercepted

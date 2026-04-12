@@ -2,7 +2,8 @@
 
 import sqlite3
 from pathlib import Path
-from typing import Optional, Any
+from typing import Any
+
 from loguru import logger
 
 
@@ -11,7 +12,7 @@ class DatabaseConnection:
 
     def __init__(self, db_path: str):
         self.db_path = db_path
-        self.conn: Optional[sqlite3.Connection] = None
+        self.conn: sqlite3.Connection | None = None
 
     def __enter__(self) -> sqlite3.Connection:
         """Open database connection."""
@@ -48,7 +49,7 @@ def execute_db_init(db_path: str, init_sql: str) -> None:
 def execute_query(
     db_path: str,
     query: str,
-    params: Optional[tuple] = None,
+    params: tuple | None = None,
     fetch_one: bool = False,
 ) -> Any:
     """Execute a SELECT query and return results."""
@@ -63,7 +64,7 @@ def execute_query(
 def execute_update(
     db_path: str,
     query: str,
-    params: Optional[tuple] = None,
+    params: tuple | None = None,
     commit: bool = True,
 ) -> int:
     """Execute an UPDATE/INSERT/DELETE query and return affected rows."""
@@ -78,7 +79,7 @@ def execute_update(
 def batch_execute(
     db_path: str,
     queries: list[str],
-    params_list: Optional[list[tuple]] = None,
+    params_list: list[tuple] | None = None,
 ) -> None:
     """Execute multiple queries in a transaction."""
     params_list = params_list or [() for _ in queries]

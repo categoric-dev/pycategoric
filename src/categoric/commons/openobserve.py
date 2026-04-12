@@ -1,7 +1,8 @@
-import sys
-from loguru import logger
 import os
+import sys
+
 import httpx
+from loguru import logger
 
 
 class OpenObserveHandler:
@@ -18,11 +19,7 @@ class OpenObserveHandler:
         self.password = password or os.getenv("OPENOBSERVE_PASSWORD")
         self.organization = organization
         self.stream = stream
-        self.client = (
-            httpx.Client(auth=(self.username, self.password))
-            if self.username and self.password
-            else None
-        )
+        self.client = httpx.Client(auth=(self.username, self.password)) if self.username and self.password else None
 
     def __call__(self, message):
         if not self.client or not self.endpoint:

@@ -1,6 +1,11 @@
-#!/usr/bin/env python3
-import typer
+#!/usr/bin/env python3 -u
 import shutil
+
+import typer.core
+from rich.traceback import install
+
+install(show_locals=False)
+typer.core.rich = None
 
 app = typer.Typer(
     context_settings=dict(

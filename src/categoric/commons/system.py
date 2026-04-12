@@ -1,7 +1,7 @@
-import hashlib
-import uuid
 import datetime
+import hashlib
 import pathlib
+import uuid
 
 
 def temp_dir(
@@ -22,7 +22,10 @@ def temp_dir(
 
     Returns:
         The path to the created temporary directory.
+
     """
+    # FIXME: CVE-2025-71176 https://github.com/pytest-dev/pytest/issues/13669
+
     rand_uuid = uuid.uuid4().hex.lower()
     if nested:
         now = datetime.datetime.now(datetime.UTC).strftime("%Y/%m/%d/%H%M_%f")
@@ -54,6 +57,7 @@ def temp_file(
 
     Returns:
         The path to the temporary file.
+
     """
     rand_uuid = uuid.uuid4().hex.lower()
     now = datetime.datetime.now(datetime.UTC).strftime("%Y/%m/%d/%H%M_%f")
@@ -72,5 +76,6 @@ def md5sum(data: str) -> str:
 
     Returns:
         The hex-encoded MD5 hash.
+
     """
     return hashlib.md5(data.encode("utf-8"), usedforsecurity=False).hexdigest()

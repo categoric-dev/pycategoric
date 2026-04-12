@@ -1,7 +1,8 @@
 """HTTP client utilities and factories."""
 
+from typing import Any
+
 import httpx
-from typing import Optional, Dict, Any
 from loguru import logger
 
 
@@ -12,8 +13,8 @@ class HTTPClientConfig:
         self,
         base_url: str,
         timeout: float = 60.0,
-        auth: Optional[tuple] = None,
-        headers: Optional[Dict[str, str]] = None,
+        auth: tuple | None = None,
+        headers: dict[str, str] | None = None,
     ):
         self.base_url = base_url
         self.timeout = timeout
@@ -46,9 +47,8 @@ async def safe_http_request(
     method: str,
     url: str,
     **kwargs: Any,
-) -> Optional[Dict[str, Any]]:
-    """
-    Make an HTTP request with error handling and logging.
+) -> dict[str, Any] | None:
+    """Make an HTTP request with error handling and logging.
 
     Args:
         client: AsyncClient instance
@@ -58,6 +58,7 @@ async def safe_http_request(
 
     Returns:
         Response JSON or None if request failed
+
     """
     try:
         response = await client.request(method, url, **kwargs)

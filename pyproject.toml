@@ -1,6 +1,6 @@
 [project]
 name = "categoric"
-version = "0.6.0"
+version = "0.7.0"
 description = "Namespace reserved for categoric.dev and shared helper functions"
 requires-python = ">=3.14"
 dependencies = [
@@ -34,3 +34,12 @@ mypy_path ="src"
 packages = ["categoric"]
 ignore_missing_imports = false
 strict = true
+
+[tool.ruff]
+lint.select = ["ALL"]
+lint.ignore = ["D203","D213","COM812"]
+line-length = 120
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 120
+max-line-length = 120

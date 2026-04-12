@@ -1,8 +1,13 @@
 """CLI and console utilities."""
 
 import shutil
+
 import typer
-from typing import Optional
+import typer.core
+from rich.traceback import install
+
+install(show_locals=False)
+typer.core.rich = None
 
 # Logging
 LOG_FORMAT_DEFAULT = (
@@ -31,8 +36,8 @@ typer_file_kwargs = dict(
 
 
 def get_typer(
-    name: Optional[str] = None,
-    help_message: Optional[str] = None,
+    name: str | None = None,
+    help_message: str | None = None,
     invoke_without_command: bool = False,
     hidden: bool = False,
     no_args_is_help: bool = True,
@@ -48,6 +53,7 @@ def get_typer(
 
     Returns:
         A configured typer.Typer instance.
+
     """
     return typer.Typer(
         context_settings=dict(
@@ -58,9 +64,10 @@ def get_typer(
         rich_markup_mode=None,
         add_completion=False,
         no_args_is_help=no_args_is_help,
-        help=help_message or (name if name else "CLI Application"),
+        help=help_message or (name or "CLI Application"),
         hidden=hidden,
         invoke_without_command=invoke_without_command,
+        pretty_exceptions_show_locals=False,
     )
 
 
@@ -73,10 +80,9 @@ class CLITable:
     """Helper for formatting console tables."""
 
     @staticmethod
-    def format_key_value(key: str, value: str, width: Optional[int] = None) -> str:
+    def format_key_value(key: str, value: str, width: int | None = None) -> str:
         """Format a key-value pair for console output."""
         width = width or get_terminal_width()
         padding = width - len(key) - len(value) - 2
-        if padding < 1:
-            padding = 1
+        padding = max(padding, 1)
         return f"{key}: {' ' * padding}{value}"

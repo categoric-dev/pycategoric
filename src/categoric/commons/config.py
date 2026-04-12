@@ -1,16 +1,17 @@
 """Configuration and environment variable helpers."""
 
 import os
-from typing import Optional, Type, TypeVar
+from typing import Self, TypeVar
 
 T = TypeVar("T")
 
 
 def get_env(
-    key: str, default: Optional[str] = None, required: bool = False
-) -> Optional[str]:
-    """
-    Get an environment variable with optional default and required check.
+    key: str,
+    default: str | None = None,
+    required: bool = False,
+) -> str | None:
+    """Get an environment variable with optional default and required check.
 
     Args:
         key: Environment variable name
@@ -22,6 +23,7 @@ def get_env(
 
     Raises:
         ValueError: If required=True and variable not found
+
     """
     value = os.environ.get(key, default)
     if required and value is None:
@@ -61,7 +63,7 @@ class ConfigBase:
     """Base class for configuration objects."""
 
     @classmethod
-    def from_env(cls: Type[T], prefix: str = "") -> T:
+    def from_env(cls, prefix: str = "") -> Self:
         """Create config object from environment variables."""
         # This can be overridden in subclasses for custom behavior
         kwargs = {}
