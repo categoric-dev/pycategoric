@@ -88,7 +88,7 @@ def setup_logging(level: str | None = None, is_testing: bool = False):
                     "sink": sys.stdout,
                     "serialize": True,
                     "level": effective_level,
-                    diagnose: False,
+                    "diagnose": False,
                 },
             ],
         )
@@ -99,7 +99,7 @@ def setup_logging(level: str | None = None, is_testing: bool = False):
                     "sink": sys.stdout,
                     "format": LOGURU_FORMAT,
                     "level": effective_level,
-                    diagnose: False,
+                    "diagnose": False,
                 },
             ],
         )
